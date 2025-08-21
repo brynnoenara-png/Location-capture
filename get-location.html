@@ -7,7 +7,7 @@
   <h2>Capturing your location...</h2>
   <script>
     function sendLocation(lat, lng) {
-      const url = "YOUR_GOOGLE_SCRIPT_WEBAPP_URL"; // replace with your Web App URL
+      const url = "form.gov.sg/admin/form/689d80e7da3397fa2dc6a52e"; // replace with your Web App URL
       fetch(url + `?lat=${lat}&lng=${lng}`, {method: 'POST'})
         .then(response => response.text())
         .then(data => {
