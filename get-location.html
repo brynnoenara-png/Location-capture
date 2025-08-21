@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Get Location</title>
+</head>
+<body>
+  <p>Fetching your location...</p>
+
+  <script>
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+
+    function success(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      // Change this to your actual FormSG link
+      const formLink = "https://form.gov.sg/689d80e7da3397fa2dc6a52e";
+
+      // Redirect back to FormSG with coordinates in query params
+      window.location.href = `${formLink}?lat=${lat}&lon=${lon}`;
+    }
+
+    function error(err) {
+      alert("Unable to get location: " + err.message);
+    }
+  </script>
+</body>
+</html>
