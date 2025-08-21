@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Share Location</title>
+  <title>Location Capture</title>
 </head>
 <body>
-  <h3>Fetching your location…</h3>
-  <p>Please allow location access to continue.</p>
-
+  <h2>Capturing your location...</h2>
   <script>
-    // Replace this URL with your actual FormSG form link from the QR code
-    const formLink = "https://form.gov.sg/xxxxxxxxxxxx"; // <-- put your form URL here
+    function sendLocation(lat, lng) {
+      const url = "YOUR_GOOGLE_SCRIPT_WEBAPP_URL"; // replace with your Web App URL
+      fetch(url + `?lat=${lat}&lng=${lng}`, {method: 'POST'})
+        .then(response => response.text())
+        .then(data => {
+          document.body.innerHTML = "<h2>Location Captured!</h2>";
+        })
+        .catch(err => {
+          document.body.innerHTML = "<h2>Failed to capture location.</h2>";
+          console.error(err);
+        });
+    }
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
+      navigator.geolocation.getCurrentPosition(
+        pos => sendLocation(pos.coords.latitude, pos.coords.longitude),
+        err => document.body.innerHTML = "<h2>Permission denied or error!</h2>"
+      );
     } else {
-      alert("Geolocation is not supported by your browser.");
-    }
-
-    function success(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-
-      // Redirect back to the form with lat & lon in query string
-      const redirectURL = `${formLink}?lat=${lat}&lon=${lon}`;
-      window.location.href = redirectURL;
-    }
-
-    function error(err) {
-      alert("Unable to get your location: " + err.message);
+      document.body.innerHTML = "<h2>Geolocation not supported</h2>";
     }
   </script>
 </body>
